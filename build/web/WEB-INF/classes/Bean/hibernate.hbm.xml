@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="Bean.Auteur" table="Auteur">
+    <id name="Numero" type="java.lang.Integer">
+      <column name="Numero"/>
+      <generator class="identity"/>
+    </id>
+    <property length="20" name="Email" not-null="true" type="string"/>
+    <property length="20" name="Password" not-null="true" type="string">
+        </property>
+  </class>
+  <class name="Bean.Client" table="Client">
+    <id name="Clie_Num" type="java.lang.Integer">
+      <column name="Clie_Num"/>
+      <generator class="identity"/>
+    </id>
+    <property length="30" name="Nom" not-null="true" type="string"/>
+    <property length="50" name="Adresse" not-null="true" type="string"/>
+    <property length="50" name="Email" not-null="true" type="string"/>
+    <property length="30" name="Password" not-null="true" type="string"/>
+    <set name="Offres" table="OffreClient">
+      <key column="Clie_Num"/>
+      <many-to-many class="Bean.Offre" column="Offr_Num"/>
+    </set>
+  </class>
+  <class name="Bean.Soumission" table="Soumission">
+    <id name="Numero" type="java.lang.Integer">
+      <column name="Numero"/>
+      <generator class="identity"/>
+    </id>
+    <property length="50" name="Description" not-null="true" type="string"/>
+    <property name="DateSoumission" not-null="true" type="date"/>
+    <property column="file" name="file" not-null="true" type="binary"/>
+    <many-to-one class="Bean.Client" column="Client" name="Client" not-null="true"/>
+    <many-to-one class="Bean.Offre" column="Offre" name="Offr" not-null="true"/>
+  </class>
+  
+  <class name="Bean.Offre" table="Offre">
+    <id name="Offr_Num" type="java.lang.Integer">
+      <column name="Offr_Num"/>
+      <generator class="identity"/>
+    </id>
+    <property length="50" name="Description" not-null="true" type="string"/>
+    <property length="200" name="filePath" not-null="true" type="string"/>
+    <property name="DateOffre" not-null="true" type="date"/>
+    <property name="DateClotOffre" not-null="true" type="date"/>
+    <property column="file" name="file" not-null="true" type="binary"/>
+    <many-to-one class="Bean.Auteur" column="Auteur" name="Aut"/>
+    <many-to-one class="Bean.SecteurActivite" column="Sect" name="Sect" not-null="true"/>
+    <set name="Clients" table="OffreClient">
+      <key column="Offr_Num"/>
+      <many-to-many class="Bean.Client" column="Clie_Num"/>
+    </set>
+  </class>
+  <class name="Bean.SecteurActivite" table="SecteurActivite">
+    <id name="id_sect" type="java.lang.Integer">
+      <column name="id_sect"/>
+      <generator class="identity"/>
+    </id>
+    <property length="30" name="Libelle" not-null="true" type="string"/>
+  </class>
+</hibernate-mapping>
